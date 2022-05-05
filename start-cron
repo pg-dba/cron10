@@ -45,6 +45,10 @@ env | while read -r line; do  # read STDIN by line
     echo "${var} DEFAULT=\"${val}\"" >> /etc/security/pam_env.conf
 done
 
+# cron timezone
+ln -snf /usr/share/zoneinfo/$TZ /etc/localtime
+echo ${TZ} > /etc/timezone
+
 # start cron
 service cron start
 
