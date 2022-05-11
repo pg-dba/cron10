@@ -32,25 +32,10 @@ RUN set -ex \
 
 RUN apt-get clean all
 
-COPY docker-entrypoint.sh /etc/cron.d/
 COPY start-cron /usr/sbin/
 
 # scripts for cron
-COPY c_log_switch.sh /etc/cron.d/
-COPY c_kill_idle.sh /etc/cron.d/
-COPY c_kill_idle_in_trans.sh /etc/cron.d/
-COPY c_analyze.sh /etc/cron.d/
-COPY c_vacuum.sh /etc/cron.d/
-COPY c_take_sample.sh /etc/cron.d/
-COPY c_send_report.sh /etc/cron.d/
-COPY c_resend_report.sh /etc/cron.d/
-COPY c_send_pgbadger.sh /etc/cron.d/
-COPY c_send_locks.sh /etc/cron.d/
-COPY c_pgdump.sh /etc/cron.d/
-
-# для send_report.sh
-#RUN mkdir -p /pgdata
-#VOLUME /pgdata
+COPY *.sh /etc/cron.d/
 
 # для send_pgbadger.sh
 RUN mkdir -p /pglog
