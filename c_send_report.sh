@@ -4,7 +4,7 @@ FILEREPORT='/cronwork/pg_profile_daily.html'
 
 echo "[pg_profile]  Generate pg_profile Daily Report"
 
-echo '<html><head><meta charset="utf-8"></head><body><p style="font-family:Monospace;font-size:10px"><a href="https://postgrespro.ru/docs/postgrespro/13/pgpro-pwr#PGPRO-PWR-SECTIONS-OF-A-REPORT">Описание разделов отчёта</a></p></body></html>' > ${FILEREPORT}
+echo '<html><head><meta charset="utf-8"></head><body><p style="font-family:Monospace;font-size:10px"><a href="https://postgrespro.ru/docs/postgrespro/13/pgpro-pwr#PGPRO-PWR-SECTIONS-OF-A-REPORT">Description of report sections</a></p></body></html>' > ${FILEREPORT}
 PGPASSWORD=${PASSWORD} psql -h ${HOST} -p ${PORT} -U ${USERNAME} -d ${DBNAME} -P pager=off -qtc "SELECT profile.report_daily();" >> ${FILEREPORT}
 sed -i 's/<H2>Report sections<\/H2>/<H2><a NAME=report_sec>Report sections<\/H2>/' ${FILEREPORT}
 sed -i 's/<\/a><\/H3>/<\/a> <a HREF=#report_sec><button>up to contents<\/button><\/a><\/H3>/g' ${FILEREPORT}
