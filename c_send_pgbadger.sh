@@ -1,4 +1,5 @@
 #!/bin/bash
+# c_send_pgbadger.sh
 
 FileReport='/cronwork/pgbadger_report.html'
 FileTmp='/cronwork/pgbadger-incremental.last'
@@ -17,18 +18,28 @@ echo "[pgbadger]  Generate Weekly Report Finished"
 if [[ -v MAILSMTP ]]; then
 
 # MAILSMTP='smtp.inbox.ru:25'
-echo "<html>PostgreSQL on ${HOST} pgbadger Weekly Report<BR><BR>See Attachment</html>" | mutt -e 'set content_type = text/html' -e "set from=\"${MAILLOGIN}\"" \
-  -e "set realname=\"${MAILFROM}\"" -e 'set smtp_authenticators="login"' -e "set smtp_url=smtp://\"${MAILLOGIN}\"@\"${MAILSMTP}\"" -e "set smtp_pass=\"${MAILPWD}\"" \
-  -e 'set ssl_starttls=yes' -e 'set ssl_verify_dates=no' -e 'set ssl_verify_host=no' -s 'PostgreSQL pgbadger Weekly Report' -a ${FileReport} -- "${MAILTO}"
+cmdsend=$(echo mutt -e \"set content_type=text/html\" -e \"set from=\\\"${MAILLOGIN}\\\"\" \
+  -e \"set realname=\\\"${MAILFROM}\\\"\" -e \"set smtp_authenticators=\\\"login\\\"\" -e \"set smtp_url=smtp://\\\"${MAILLOGIN}\\\"@\\\"${MAILSMTP}\\\"\" -e \"set smtp_pass=\\\"${MAILPWD}\\\"\" \
+  -e \"set ssl_starttls=yes\" -e \"set ssl_verify_dates=no\" -e \"set ssl_verify_host=no\" -s \"PostgreSQL pgbadger Weekly Report\" -a ${FileReport} -- ${MAILTO})
+#echo ${cmdsend}
+
+echo "<html>PostgreSQL on ${HOST} pgbadger Weekly Report<BR><BR>See Attachment</html>" | mutt -e "set content_type=text/html" -e "set from=\"${MAILLOGIN}\"" \
+  -e "set realname=\"${MAILFROM}\"" -e "set smtp_authenticators=\"login\"" -e "set smtp_url=smtp://\"${MAILLOGIN}\"@\"${MAILSMTP}\"" -e "set smtp_pass=\"${MAILPWD}\"" \
+  -e "set ssl_starttls=yes" -e "set ssl_verify_dates=no" -e "set ssl_verify_host=no" -s "PostgreSQL pgbadger Weekly Report" -a ${FileReport} -- ${MAILTO}
 
 fi
 
 if [[ -v MAILSMTPURL ]]; then
 
 # MAILSMTPURL='smtp://10.42.161.197:25'
-echo "<html>PostgreSQL on ${HOST} pgbadger Weekly Report<BR><BR>See Attachment</html>" | mutt -e 'set ssl_starttls=no' -e 'set ssl_force_tls=no' \
-  -e 'set content_type = text/html' -e "set from=\"${MAILLOGIN}\"" -e "set realname=\"${MAILFROM}\"" -e "set smtp_url=\"${MAILSMTPURL}\"" \
-  -s 'PostgreSQL pgbadger Weekly Report' -a ${FileReport} -- "${MAILTO}"
+cmdsend=$(echo mutt -e \"set ssl_starttls=no\" -e \"set ssl_force_tls=no\" \
+  -e \"set content_type=text/html\" -e \"set from=\\\"${MAILLOGIN}\\\"\" -e \"set realname=\\\"${MAILFROM}\\\"\" -e \"set smtp_url=\\\"${MAILSMTPURL}\\\"\" \
+  -s \"PostgreSQL pgbadger Weekly Report\" -a ${FileReport} -- ${MAILTO})
+#echo ${cmdsend}
+
+echo "<html>PostgreSQL on ${HOST} pgbadger Weekly Report<BR><BR>See Attachment</html>" | mutt -e "set ssl_starttls=no" -e "set ssl_force_tls=no" \
+  -e "set content_type=text/html" -e "set from=\"${MAILLOGIN}\"" -e "set realname=\"${MAILFROM}\"" -e "set smtp_url=\"${MAILSMTPURL}\"" \
+  -s "PostgreSQL pgbadger Weekly Report" -a ${FileReport} -- ${MAILTO}
 
 fi
 
