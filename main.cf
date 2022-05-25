@@ -34,12 +34,12 @@ smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
 
 
 smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
-myhostname = notify.spsr.tech
+myhostname = $HOSTNAME
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
-myorigin = /etc/mailname
+myorigin = $HOSTNAME
 #mydestination = $myhostname, , localhost
-mydestination = $myhostname, notify.lab.local, localhost.lab.local, , localhost
+mydestination = $myhostname, $myhostname.lab.local, localhost, localhost.lab.local
 relayhost = 
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 mailbox_size_limit = 0
