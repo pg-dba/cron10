@@ -49,6 +49,15 @@ done
 ln -snf /usr/share/zoneinfo/$TZ /etc/localtime
 echo ${TZ} > /etc/timezone
 
+# postfix config
+if [ -n "$MAILSMTP" ]; then
+export SMTPRELAY=$(echo $MAILSMTP | sed 's/^.*\///' | sed 's/:.*$//');
+fi
+if [ -n "$MAILSMTPURL" ]; then
+export SMTPRELAY=$(echo $MAILSMTPURL | sed 's/^.*\///' | sed 's/:.*$//');
+fi
+sed -i "s/relayhost =.*$/relayhost = $SMTPRELAY/" /etc/postfix/main.cf
+
 # start cron
 service cron start
 

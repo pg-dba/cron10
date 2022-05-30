@@ -1,7 +1,7 @@
 FROM debian:latest
 # https://github.com/renskiy/cron-docker-image/tree/master/debian
 
-ENV DEBIAN_FRONTEND noninteractive
+#ENV DEBIAN_FRONTEND noninteractive
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 
@@ -16,7 +16,7 @@ RUN apt-get clean && apt-get update \
     && apt-get -y install postgresql-client-10 iputils-ping dnsutils \
     && apt-get -y install pgbadger moreutils nano
 
-RUN apt-get -y install postfix mutt
+RUN export DEBIAN_FRONTEND=noninteractive && apt-get -y install postfix mutt && unset DEBIAN_FRONTEND
 COPY main.cf /etc/postfix/main.cf
 
 RUN set -ex \
@@ -39,19 +39,13 @@ COPY start-cron /usr/sbin/
 # scripts for cron
 COPY *.sh /etc/cron.d/
 
-# для c_send_pgbadger.sh
+# для send_pgbadger.sh
 RUN mkdir -p /pglog
 VOLUME /pglog
 
 # для c_pgdump.sh
 RUN mkdir -p /pgbackups
 VOLUME /pgbackups
-
-# для c_redis_backup.sh
-RUN mkdir -p /redis \
-    && mkdir -p /redisbackups
-VOLUME /redis
-VOLUME /redisbackups
 
 # для рабочий каталог для файлов tasks
 RUN mkdir -p /cronwork
