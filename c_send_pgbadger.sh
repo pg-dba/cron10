@@ -4,6 +4,7 @@
 FileReport='/cronwork/pgbadger_report.html'
 FileTmp='/cronwork/pgbadger-incremental.last'
 
+echo "[pgbadger]  Generate Weekly Report Started."
 DS=$(date +"%Y-%m-%d 00:00:00.0+03" -d "7 day ago");
 DF=$(date +"%Y-%m-%d 00:00:00.0+03");
 #echo "DS=${DS} DF=${DF}"; 

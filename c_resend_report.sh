@@ -18,7 +18,7 @@ cat ${FILEREPORT} | mutt -d3 -e "set content_type=text/html" -e "set send_charse
     -e "set realname=\"${MAILFROM}\"" -e "set smtp_authenticators=\"login\"" -e "set smtp_url=smtp://\"${MAILLOGIN}\"@\"${MAILSMTP}\"" -e "set smtp_pass=\"${MAILPWD}\"" \
     -e "set ssl_starttls=yes" -e "set ssl_verify_dates=no" -e "set ssl_verify_host=no" -s "PostgreSQL Daily Report" ${MAILTO} | ts '[pg_profile]   '
 RC=$?
-echo "[pg_profile]  Send pg_profile Daily Report. RC=${RC}"
+echo "[pg_profile]  Send Daily Report. RC=${RC}"
 
 fi
 
@@ -36,6 +36,6 @@ cat ${FILEREPORT} | mutt -d3 -e "set ssl_starttls=no" -e "set ssl_force_tls=no" 
     -e "set from=\"${MAILLOGIN}\"" -e "set realname=\"${MAILFROM}\"" -e "set smtp_url=\"${MAILSMTPURL}\"" \
     -s "PostgreSQL Daily Report" ${MAILTO} | ts '[pg_profile]   '
 RC=$?
-echo "[pg_profile]  Send pg_profile Daily Report. RC=${RC}"
+echo "[pg_profile]  Send Daily Report. RC=${RC}"
 
 fi
