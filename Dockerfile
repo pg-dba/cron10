@@ -40,6 +40,7 @@ COPY start-cron /usr/sbin/
 
 # scripts for cron
 COPY *.sh /etc/cron.d/
+RUN chmod 755 /etc/cron.d/*.sh
 
 # для send_pgbadger.sh
 RUN mkdir -p /pglog

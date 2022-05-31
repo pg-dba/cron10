@@ -1,3 +1,6 @@
+#!/bin/bash
+# c_check_smtp.sh
+
 RELAY=$(cat /etc/postfix/main.cf | grep relayhost | sed 's/relayhost = //')
 ((count = 3))                           # Maximum number to try.
 while [[ $count -ne 0 ]] ; do
