@@ -42,3 +42,9 @@ mailbox_size_limit = 0
 recipient_delimiter = +
 inet_interfaces = all
 inet_protocols = all
+
+queue_run_delay=60s
+minimal_backoff_time=30s
+maximal_backoff_time=60s
+maximal_queue_lifetime=5m
+bounce_queue_lifetime=5m
