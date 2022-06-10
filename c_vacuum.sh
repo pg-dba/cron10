@@ -1,4 +1,5 @@
 #!/bin/bash
+# c_vacuum.sh
 
 logfile="/cronwork/VACUUM.log";
 
@@ -8,7 +9,8 @@ echo "===== $(date --iso-8601=seconds) VACUUM started ====="  > ${logfile} 2>&1;
 cmd1="SELECT datname FROM pg_database WHERE datistemplate = false;";
 DBs=($(PGPASSWORD=${PASSWORD} psql -h ${HOST} -p ${PORT} -U ${USERNAME} -d postgres -c "${cmd1}" -XAt | tr -s '\n' '|' | tr -d '\r'));
 for dbName in ${!DBs[*]}; do
-echo "===== $(date --iso-8601=seconds) ===== ${DBs[$dbName]} ====="  >> ${logfile} 2>&1;
+cmd5="SELECT '===== ' || to_char(now() , 'YYYY-MM-DD\"T\"HH24:MI:SSOF') || ':00' || ' ===== ' || current_database() || ' ===== ' || (SELECT count(*) FROM pg_available_extensions WHERE installed_version is not null AND installed_version <> default_version)::text || ' ' || ARRAY(SELECT x.extname FROM pg_extension x JOIN pg_namespace n ON n.oid = x.extnamespace ORDER BY x.extname)::text || ' =====';";
+PGPASSWORD=${PASSWORD} psql -h ${HOST} -p ${PORT} -U ${USERNAME} -d ${DBs[$dbName]} -c "${cmd5}" -XAt >> ${logfile} 2>&1;
 cmd2="select table_schema from information_schema.tables where table_schema not in ('pg_catalog','information_schema') group by 1;";
 Ss=($(PGPASSWORD=${PASSWORD} psql -h ${HOST} -p ${PORT} -U ${USERNAME} -d ${DBs[$dbName]} -c "${cmd2}" -XAt | tr -s '\n' '|' | tr -d '\r'));
 for sName in ${!Ss[*]}; do
