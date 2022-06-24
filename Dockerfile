@@ -1,7 +1,7 @@
 FROM debian:latest
 # https://github.com/renskiy/cron-docker-image/tree/master/debian
+# https://habr.com/ru/company/redmadrobot/blog/305364/
 
-#ENV DEBIAN_FRONTEND noninteractive
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 
