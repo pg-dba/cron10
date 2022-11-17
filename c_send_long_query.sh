@@ -1,7 +1,7 @@
 #!/bin/bash
 # c_send_long_query.sh
 
-LONGQUERYTIME='1 minute'
+LONGQUERYTIME='1 hour'
 
 FILEREPORT='/cronwork/pg_long_query.html'
 
