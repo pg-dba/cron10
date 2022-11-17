@@ -12,7 +12,7 @@ CMD="SELECT count(*) \
         FROM pg_catalog.pg_stat_activity \
         WHERE state not in ('idle in transaction', 'idle in transaction (aborted)', 'idle') \
                 AND (current_timestamp - query_start > interval '"${LONGQUERYTIME}"' OR current_timestamp - xact_start > interval '"${LONGQUERYTIME}"') \
-				AND query not like 'autovacuum%' \
+                AND backend_type = 'client backend' \
     ;";
 
 CNT=$( psql -h ${HOST} -p ${PORT} -U ${USERNAME} -d ${DBNAME} -Atq -c "${CMD}" );
@@ -52,6 +52,7 @@ CMD="WITH cte as ( \
                 FROM pg_catalog.pg_stat_activity \
                 WHERE state not in ('idle in transaction', 'idle in transaction (aborted)', 'idle') \
                 AND (current_timestamp - query_start > interval '"${LONGQUERYTIME}"' OR current_timestamp - xact_start > interval '"${LONGQUERYTIME}"') \
+                AND backend_type = 'client backend' \
         ) \
         SELECT \"database\", \"query_AGE\", \"transaction_AGE\", datid, usesysid, pid, usename, application_name, client_addr, client_hostname, client_port, backend_start, \
                xact_start, query_start, state_change, wait_event_type, wait_event, state, backend_xid, backend_xmin, query, backend_type \
