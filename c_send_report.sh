@@ -13,7 +13,11 @@ sed -i 's/<\/a><\/H3>/<\/a> <a HREF=#report_sec><button>up to contents<\/button>
 
 PGPASSWORD=${PASSWORD} psql -h ${HOST} -p ${PORT} -U ${USERNAME} -d ${DBNAME} -xtA -c "SELECT pg_stat_statements_reset();" 2>&1 | sed -n '1p' | ts '[pg_profile]   '
 RC=$?
-echo "[pg_profile]  Reset Stats. RC=${RC}"
+echo "[pg_profile]  Reset Statements Stats. RC=${RC}"
+
+PGPASSWORD=${PASSWORD} psql -h ${HOST} -p ${PORT} -U ${USERNAME} -d ${DBNAME} -xtA -c "SELECT pg_stat_reset_shared('bgwriter');" 2>&1 | sed -n '1p' | ts '[pg_profile]   '
+RC=$?
+echo "[pg_profile]  Reset bgWriter Stats. RC=${RC}"
 
 if [[ -v MAILSMTP ]]; then
 
