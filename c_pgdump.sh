@@ -19,7 +19,7 @@ if [[ ("$#" -eq 2) ]]; then
 
 saves=$2
 
-rm -f $(ls -1t --time-style=long-iso "/pgbackups/${backupDatabase}_*.dump" | sed -n "$((${saves}+1)),\$p")
+rm -f $(ls -1t --time-style=long-iso /pgbackups/${backupDatabase}_*.dump | sed -n "$((${saves}+1)),\$p")
 
 echo "[pgdump]  [${backupDatabase}] backup file $2 rotation completed."
 
