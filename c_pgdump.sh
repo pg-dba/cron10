@@ -1,5 +1,8 @@
 #!/bin/bash
-# need s3e image with directory backups mapped
+# need backups directory mapped /pgbackups
+
+# если параметров 1 или 2 ,и второй только из цифр
+if [[ ("$#" -eq 1) || ( ("$#" -eq 2) && ($2 =~ ^[[:digit:]]+$) ) ]]; then
 
 backupDatabase=$1
 #backupName="${backupDatabase}_$(date +%FT%T%z).dump"
@@ -11,3 +14,15 @@ PGPASSWORD=${PASSWORD} pg_dump -h ${HOST} -p ${PORT} -U ${USERNAME} -Fc -f "/pgb
 RC=$?
 
 echo "[pgdump]  [${backupDatabase}] backup finished. RC=${RC}"
+
+if [[ ("$#" -eq 2) ]]; then
+
+saves=$2
+
+rm -f $(ls -1t --time-style=long-iso "/pgbackups/${backupDatabase}_*.dump" | sed -n "$((${saves}+1)),\$p")
+
+echo "[pgdump]  [${backupDatabase}] backup file $2 rotation completed."
+
+fi
+
+fi
