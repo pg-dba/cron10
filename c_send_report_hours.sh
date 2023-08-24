@@ -2,9 +2,10 @@
 # c_send_report_hours.sh
 
 FILEREPORT='/cronwork/pg_profile_hours.html'
+HOURS=$1
 
 echo '<html><head><meta charset="utf-8"></head><body><p style="font-family:Monospace;font-size:10px"><a href="https://postgrespro.ru/docs/postgrespro/13/pgpro-pwr#PGPRO-PWR-SECTIONS-OF-A-REPORT">Описание разделов отчёта</a></p></body></html>' > ${FILEREPORT}
-PGPASSWORD=${PASSWORD} psql -h ${HOST} -p ${PORT} -U ${USERNAME} -d ${DBNAME} -P pager=off -qtc "SELECT profile.report_last_hours(%1);" >> ${FILEREPORT}
+PGPASSWORD=${PASSWORD} psql -h ${HOST} -p ${PORT} -U ${USERNAME} -d ${DBNAME} -P pager=off -qtc "SELECT profile.report_last_hours(${HOURS});" >> ${FILEREPORT}
 RC=$?
 echo "[pg_profile]  Generate Daily Report. RC=${RC}"
 
