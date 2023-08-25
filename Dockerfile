@@ -1,4 +1,5 @@
-FROM debian:latest
+FROM debian:bullseye-slim
+#FROM debian:latest
 # https://github.com/renskiy/cron-docker-image/tree/master/debian
 # https://habr.com/ru/company/redmadrobot/blog/305364/
 
