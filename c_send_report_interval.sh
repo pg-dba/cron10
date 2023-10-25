@@ -1,14 +1,15 @@
 #!/bin/bash
 # c_send_report_hours.sh
 
-FILEREPORT='/cronwork/pg_profile_hours.html'
-REPORTNAME="Hours Report"
-HOURS=$1
+FILEREPORT='/cronwork/pg_profile_interval.html'
+REPORTNAME="Interval Report"
+SNAPS=$1
+SHIFT=$2
 
 echo '<html><head><meta charset="utf-8"></head><body><p style="font-family:Monospace;font-size:10px"><a href="https://postgrespro.ru/docs/postgrespro/13/pgpro-pwr#PGPRO-PWR-SECTIONS-OF-A-REPORT">Описание разделов отчёта</a></p></body></html>' > ${FILEREPORT}
-PGPASSWORD=${PASSWORD} psql -h ${HOST} -p ${PORT} -U ${USERNAME} -d ${DBNAME} -P pager=off -qtc "SELECT profile.report_last_hours(${HOURS});" >> ${FILEREPORT}
+PGPASSWORD=${PASSWORD} psql -h ${HOST} -p ${PORT} -U ${USERNAME} -d ${DBNAME} -P pager=off -qtc "SELECT profile.report_interval(${SNAPS},${SHIFT});" >> ${FILEREPORT}
 RC=$?
-echo "[pg_profile]  Generate ${REPORTNAME} (${HOURS}). RC=${RC}"
+echo "[pg_profile]  Generate ${REPORTNAME} (${SNAPS},${SHIFT}). RC=${RC}"
 
 sed -i 's/<H2>Report sections<\/H2>/<H2><a NAME=report_sec>Report sections<\/H2>/gi' ${FILEREPORT}
 sed -i 's/<\/a><\/H3>/<\/a> <a HREF=#report_sec><button>up to contents<\/button><\/a><\/H3>/g' ${FILEREPORT}
