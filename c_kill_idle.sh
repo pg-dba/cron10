@@ -1,7 +1,11 @@
 #!/bin/bash
 # https://wiki.postgresql.org/wiki/Lock_Monitoring
 
+if [[ ("$#" -eq 0) ]]; then
 KillTimeout='8 hours';
+else
+KillTimeout="$1";
+fi
 premsg='kill idle';
 
 PGPASSWORD=${PASSWORD} psql -h ${HOST} -p ${PORT} -U ${USERNAME} -d ${DBNAME} -At -c " \
