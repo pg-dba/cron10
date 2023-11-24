@@ -1,4 +1,5 @@
 #!/bin/bash
+# c_kill_idle.sh
 # https://wiki.postgresql.org/wiki/Lock_Monitoring
 
 if [[ ("$#" -eq 0) ]]; then
