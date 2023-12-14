@@ -2,11 +2,12 @@
 # c_vacuum_analyze.sh
 
 logfile="/cronwork/VACUUM_ANALYZE.log";
+excludedb='數據庫管理員'
 
 IFS="|";
 echo "===== ${HOST} VACUUM ANALYZE started ====="  2>&1;
 echo "===== $(date --iso-8601=seconds) VACUUM ANALYZE started ====="  > ${logfile} 2>&1;
-cmd1="SELECT datname FROM pg_database WHERE datistemplate = false;";
+cmd1="SELECT datname FROM pg_database WHERE datistemplate = false AND datname not in (${excludedb});";
 DBs=($(PGPASSWORD=${PASSWORD} psql -h ${HOST} -p ${PORT} -U ${USERNAME} -d postgres -c "${cmd1}" -XAt | tr -s '\n' '|' | tr -d '\r'));
 for dbName in ${!DBs[*]}; do
 cmd5="SELECT '===== ' || to_char(now() , 'YYYY-MM-DD\"T\"HH24:MI:SSOF') || ':00' || ' ===== ' || current_database() || ' ===== ' || (SELECT count(*) FROM pg_available_extensions WHERE installed_version is not null AND installed_version <> default_version)::text || ' ' || ARRAY(SELECT x.extname FROM pg_extension x JOIN pg_namespace n ON n.oid = x.extnamespace ORDER BY x.extname)::text || ' =====';";
