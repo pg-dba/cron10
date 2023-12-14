@@ -2,7 +2,13 @@
 # c_vacuum_analyze.sh
 
 logfile="/cronwork/VACUUM_ANALYZE.log";
-excludedb='數據庫管理員'
+
+# если параметр 1
+if [[ ("$#" -eq 1) ]]; then
+excludedb="'"$1"'"
+else
+excludedb="'數據庫管理員'"
+fi
 
 IFS="|";
 echo "===== ${HOST} VACUUM ANALYZE started ====="  2>&1;
