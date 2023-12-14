@@ -5,7 +5,7 @@ logfile="/cronwork/VACUUM_ANALYZE.log";
 
 # если параметр 1
 if [[ ("$#" -eq 1) ]]; then
-excludedb="'"$1"'"
+excludedb="$1"
 else
 excludedb="'數據庫管理員'"
 fi
