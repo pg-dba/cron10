@@ -27,5 +27,9 @@ echo "[pgdump]  psql db:${DBs[$dbName]} schema-only finished. RC=${RC}"
 
 done;
 
+find /pgbackups/ -name "${fprefix}*.sql" | tar czf /pgbackups/${fprefix}.tgz --files-from=- &>/dev/null;
+tar -tvf /pgbackups/${fprefix}.tgz &>/dev/null;
+rm -f /pgbackups/${fprefix}*.sql
+
 echo "===== $(date --iso-8601=seconds) PGDUMPALL finished =====" &>>${logfile};
 echo "===== ${HOST} PGDUMPALL finished =====" 2>&1;
