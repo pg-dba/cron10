@@ -4,6 +4,9 @@
 logfile="/cronwork/PGDUMPALL.log";
 fprefix="${HOST}_$(date '+%Y-%m-%d_%H-%M-%S_%z')"
 
+# если параметр 1 и он только из цифр
+if [[ ("$#" -eq 1) && ($1 =~ ^[[:digit:]]+$) ]]; then
+
 IFS="|";
 echo "===== ${HOST} PGDUMPALL started ====="  2>&1;
 echo "===== $(date --iso-8601=seconds) PGDUMPALL started ====="  > ${logfile} 2>&1;
@@ -31,5 +34,16 @@ find /pgbackups/ -name "${fprefix}*.sql" | tar czf /pgbackups/${fprefix}.tgz --f
 #tar -tvf /pgbackups/${fprefix}.tgz &>/dev/null;
 rm -f /pgbackups/${fprefix}*.sql
 
+if [[ ("$#" -eq 1) ]]; then
+
+saves=$1
+
+rm -f $(ls -1t --time-style=long-iso /pgbackups/${HOST}_*.tgz 2>/dev/null | sed -n "$((${saves}+1)),\$p")
+
+echo "[pgdump]  backup file $1 rotation completed."
+fi
+
 echo "===== $(date --iso-8601=seconds) PGDUMPALL finished =====" &>>${logfile};
 echo "===== ${HOST} PGDUMPALL finished =====" 2>&1;
+
+fi
