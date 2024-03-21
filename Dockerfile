@@ -17,7 +17,7 @@ RUN apt-get clean && apt-get update \
     && apt-get -y install postgresql-client-10 iputils-ping dnsutils \
     && apt-get -y install pgbadger moreutils nano
 
-RUN export DEBIAN_FRONTEND=noninteractive && apt-get -y install barman-cli awscli gosu && unset DEBIAN_FRONTEND
+#RUN export DEBIAN_FRONTEND=noninteractive && apt-get -y install barman-cli awscli gosu && unset DEBIAN_FRONTEND
 
 #RUN wget --quiet https://dl.min.io/client/mc/release/linux-amd64/mc && chmod 700 mc && mv mc /usr/bin/
 
