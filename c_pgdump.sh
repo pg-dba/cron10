@@ -52,13 +52,13 @@ fi
 
 fi
 
+if [ -n "${MINIO_ENDPOINT_URL}" ]; then
+
 echo "[pgdump]  [${backupDatabase}] transfer started"
 tr_start=$(date +%s)
 
-if [ -n "${MINIO_ENDPOINT_URL}" ]; then
 mc cp "/pgbackups/${backupName}" ${MINIO_BUCKET}/ 2>&1 1>/dev/null
 RC=$?
-fi
 
 echo "[pgdump]  [${backupDatabase}] transfer finished. RC=${RC}"
 tr_finish=$(date +%s)
@@ -66,6 +66,8 @@ tr_finish=$(date +%s)
 if [ -n "${ZBX_SERVERS}" ]; then
 zabbix_sender -z ${ZBX_SERVERS} -p ${ZBX_PORT} -s ${ZBX_HOST} -k "${zbxnkey}" -o "${RC}" 2>&1 1>/dev/null
 zabbix_sender -z ${ZBX_SERVERS} -p ${ZBX_PORT} -s ${ZBX_HOST} -k "${zbxikey}" -o "$((${tr_finish}-${tr_start}))" 2>&1 1>/dev/null
+fi
+
 fi
 
 fi
