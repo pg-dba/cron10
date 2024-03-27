@@ -35,6 +35,8 @@ find /pgbackups/ -name "${fprefix}*.sql" | tar czf /pgbackups/${fprefix}.tgz --f
 rm -f /pgbackups/${fprefix}*.sql
 RC=$?
 
+bkp_finish=$(date +%s)
+
 if [ -n "${ZBX_SERVERS}" ]; then
 zabbix_sender -z ${ZBX_SERVERS} -p ${ZBX_PORT} -s ${ZBX_HOST} -k "${zbxckey}" -o "${RC}" 2>&1 1>/dev/null
 zabbix_sender -z ${ZBX_SERVERS} -p ${ZBX_PORT} -s ${ZBX_HOST} -k "${zbxfkey}" -o "${bkp_finish}" 2>&1 1>/dev/null
