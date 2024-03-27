@@ -3,10 +3,10 @@
 
 fprefix="${HOST}_$(date '+%Y-%m-%d_%H-%M-%S_%z')"
 
-zbxfkey='pgsql.pg_dump_all.backup.finish["'${backupDatabase}'"]'
-zbxrkey='pgsql.pg_dump_all.backup.rotation["'${backupDatabase}'"]'
-zbxckey='pgsql.pg_dump_all.backup.rc["'${backupDatabase}'"]'
-zbxhkey='pgsql.pg_dump_all.transfer.finish["'${backupDatabase}'"]'
+zbxfkey='pgsql.pg_dump_all.backup.finish'
+zbxrkey='pgsql.pg_dump_all.backup.rotation'
+zbxckey='pgsql.pg_dump_all.backup.rc'
+zbxhkey='pgsql.pg_dump_all.transfer.finish'
 
 IFS="|";
 echo "[pgdump]  PGDUMPALL ${HOST} started."  2>&1;
